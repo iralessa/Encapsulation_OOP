@@ -25,7 +25,6 @@ public class App {
 
         System.out.println("Есть ли яблоко в корзине? " + basket.containsProduct("Яблоко"));
         System.out.println("Есть ли груша в корзине? " + basket.containsProduct("Груша"));
-
         basket.clear();
         System.out.println("Корзина очищена:");
         basket.printBasket();

@@ -53,7 +53,6 @@ public class ProductBasket {
         }
         return false;
     }
-
     public void clear() {
         for (int i = 0; i < productCount; i++) {
             products[i] = null; // Чтобы сборщик мусора мог удалить объекты
