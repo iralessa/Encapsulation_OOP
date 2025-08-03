@@ -14,7 +14,6 @@ public class ProductBasket {
         this.products = new Product[maxSize];
         this.productCount = 0;
     }
-
     public void addProduct(Product product) {
         if (productCount < MAX_SIZE) {
             products[productCount] = product;
