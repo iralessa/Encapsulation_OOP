@@ -17,12 +17,10 @@ public class DiscountedProduct extends Product {
         int discountAmount = (int) (this.basePrice * (this.discountPercentage / 100.0));
         return this.basePrice - discountAmount;
     }
-
     @Override
     public boolean isSpecial() {
         return true;
     }
-
     @Override
     public String toString() {
         return "Товар со скидкой " + getName() + ": цена " + getPrice() + " руб. ( скидка: " + this.discountPercentage + "%)";

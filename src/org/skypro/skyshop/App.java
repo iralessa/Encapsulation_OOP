@@ -16,8 +16,6 @@ public class App {
         Product product4 = new SimpleProduct("Гранат", 200);
         Product product5 = new SimpleProduct("Арбуз", 800);
         Product product6 = new SimpleProduct("Виноград", 120);
-
-
         // Создаем discounted и fix price продукты
        Product discountedProduct1 = new DiscountedProduct("Кроссовки", 5000, 50); // 50% скидка
         Product discountedProduct2 = new DiscountedProduct("Туфли", 10000, 50); // 50% скидка

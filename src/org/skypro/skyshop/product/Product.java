@@ -1,5 +1,4 @@
 package org.skypro.skyshop.product;
-
 public abstract class Product {
     private final String name;
     //private final int price;
@@ -13,6 +12,5 @@ public abstract class Product {
         return name;
     }
     public abstract int getPrice();
-
     public abstract boolean isSpecial();
 }

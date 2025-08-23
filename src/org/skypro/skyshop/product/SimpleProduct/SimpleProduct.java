@@ -13,13 +13,11 @@ public class SimpleProduct extends Product {
         this.price = price;
 
     }
-
     // Переопределяем абстрактный метод getPrice()
     @Override
     public int getPrice() {
         return this.price; // Возвращаем цену, которая хранится в этом объекте
     }
-
     @Override
     public boolean isSpecial() {
         return false;

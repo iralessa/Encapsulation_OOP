@@ -9,12 +9,10 @@ public class FixPriceProduct extends Product {
     public FixPriceProduct(String name) {
         super(name);
     }
-
     @Override
     public int getPrice() {
         return FIXED_PRICE;
     }
-
     @Override
     public boolean isSpecial() {
         return true;
