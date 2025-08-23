@@ -34,7 +34,6 @@ public class ProductBasket {
     public int getTotalPrice() {
         return totalCost; // Просто возвращаем накопленную сумму
     }
-
     public void printBasket() {
         if (productCount == 0) {
             System.out.println("Корзина пуста.");

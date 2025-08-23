@@ -26,3 +26,4 @@ public class SimpleProduct extends Product {
         return "Товар " + getName() + ": " + getPrice() + " руб.";
     }
 }
+

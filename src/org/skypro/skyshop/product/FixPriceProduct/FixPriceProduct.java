@@ -21,3 +21,4 @@ public class FixPriceProduct extends Product {
         return "Товар с фиксированной ценой -  " + getName() + ": Фиксированная цена " + getPrice()+ " руб.";
     }
 }
+

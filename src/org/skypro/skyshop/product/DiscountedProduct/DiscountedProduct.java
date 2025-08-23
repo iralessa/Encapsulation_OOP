@@ -5,7 +5,6 @@ import org.skypro.skyshop.product.Product;
 public class DiscountedProduct extends Product {
     private final int basePrice;
     private final int discountPercentage;
-
     public DiscountedProduct(String name, int basePrice, int discountPercentage) {
         super(name);
         this.basePrice = basePrice;

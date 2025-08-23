@@ -34,7 +34,6 @@ public class App {
         // Выводим содержимое корзины в новом формате
         basket.printBasket();
 
-
       //  System.out.println("Есть ли яблоко в корзине? " + basket.containsProduct("Яблоко"));
         //System.out.println("Есть ли груша в корзине? " + basket.containsProduct("Груша"));
 
