@@ -50,14 +50,7 @@ public class ProductBasket {
         System.out.println("Специальных товаров: " + specialProductCount);
         System.out.println("---------------------------");
     }
-//    public boolean containsProduct(String productName) {
-//        for (int i = 0; i < productCount; i++) {
-//            if (products[i].getName().equals(productName)) {
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
+
     public void clear() {
         for (int i = 0; i < productCount; i++) {
             products[i] = null;

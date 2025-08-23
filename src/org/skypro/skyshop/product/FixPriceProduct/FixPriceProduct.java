@@ -5,7 +5,6 @@ import org.skypro.skyshop.product.Product;
 public class FixPriceProduct extends Product {
     // Приватная статическая финальная константа для фиксированной цены
     private static final int FIXED_PRICE = 55; // Установим какую-то примерную фиксированную цену
-
     public FixPriceProduct(String name) {
         super(name);
     }

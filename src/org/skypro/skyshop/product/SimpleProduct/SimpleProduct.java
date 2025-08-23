@@ -11,7 +11,6 @@ public class SimpleProduct extends Product {
         super(name);
         // Присваиваем цену нашему экземпляру
         this.price = price;
-
     }
     // Переопределяем абстрактный метод getPrice()
     @Override

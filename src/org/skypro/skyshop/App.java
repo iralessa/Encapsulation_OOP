@@ -4,12 +4,10 @@ import org.skypro.skyshop.product.DiscountedProduct.DiscountedProduct;
 import org.skypro.skyshop.product.FixPriceProduct.FixPriceProduct;
 import org.skypro.skyshop.product.Product;
 import org.skypro.skyshop.product.SimpleProduct.SimpleProduct;
-
 public class App {
     public static void main(String[] args) {
         // Создаем корзину с максимальным размером
         ProductBasket basket = new ProductBasket(7);
-
         Product product1 = new SimpleProduct("Яблоко", 50);
         Product product2 = new SimpleProduct("Банан", 70);
         Product product3 = new SimpleProduct("Апельсин", 100);
@@ -20,7 +18,6 @@ public class App {
        Product discountedProduct1 = new DiscountedProduct("Кроссовки", 5000, 50); // 50% скидка
         Product discountedProduct2 = new DiscountedProduct("Туфли", 10000, 50); // 50% скидка
         Product fixPriceProduct = new FixPriceProduct("Книга"); // Используем фикс. цену из константы
-
         // Добавляем товары в корзину
         basket.addProduct(product1); // Яблоко
         basket.addProduct(product2); // Банан
