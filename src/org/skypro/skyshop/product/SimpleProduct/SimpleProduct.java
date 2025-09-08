@@ -12,6 +12,7 @@ public class SimpleProduct extends Product {
         // Присваиваем цену нашему экземпляру
         this.price = price;
     }
+
     // Переопределяем абстрактный метод getPrice()
     @Override
     public int getPrice() {
