@@ -1,4 +1,5 @@
 package org.skypro.skyshop.search;
+import org.skypro.skyshop.search.BestResultNotFound; // Добавляем импорт
 
 public class SearchEngine {
     private final Searchable[] searchableItems;
@@ -36,6 +37,46 @@ public class SearchEngine {
             }
         }
         return results;
+    }
+
+    // Новый метод для поиска лучшего совпадения
+    public Searchable findBestMatch(String search) throws BestResultNotFound {
+        String lowerCaseQuery = search.toLowerCase();
+        Searchable bestMatch = null;
+        int maxCount = 0;
+
+        for (Searchable item : searchableItems) {
+            if (item != null) {
+                String searchTerm = item.getSearchTerm();
+                int count = countOccurrences(searchTerm, lowerCaseQuery);
+
+                if (count > maxCount) {
+                    maxCount = count;
+                    bestMatch = item;
+                }
+            }
+        }
+
+        // Проверка на отсутствие результата
+        if (bestMatch == null) {
+            throw new BestResultNotFound(search);
+        }
+
+        return bestMatch;
+    }
+
+
+    // Вспомогательный метод для подсчета вхождений подстроки
+    private int countOccurrences(String text, String query) {
+        int count = 0;
+        int index = 0;
+
+        while ((index = text.indexOf(query, index)) != -1) {
+            count++;
+            index += query.length();
+        }
+
+        return count;
     }
 
     public static void printSearchResults(SearchEngine searchEngine, String query) {
