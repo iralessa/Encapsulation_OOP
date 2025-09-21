@@ -17,7 +17,6 @@ public abstract class Product implements Searchable {
     public String getSearchTerm() {
         return name.toLowerCase(); // Правильно возвращаем имя в нижнем регистре
     }
-
     @Override
     public String getContentType() {
         return "ТОВАР"; // Правильно возвращаем тип контента

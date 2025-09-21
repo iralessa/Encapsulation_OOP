@@ -1,61 +1,72 @@
 package org.skypro.skyshop.basket;
 import org.skypro.skyshop.product.Product;
+import java.util.LinkedList;
+import java.util.Iterator;
+import java.util.List;
+
 public class ProductBasket {
-    private final Product[] products;
-    private int productCount; // Количество добавленных продуктов в корзину
-    private final int maxSize; // Максимальный размер корзины
+    private final List<Product> products = new LinkedList<>();
     private int totalCost;
     private int specialProductCount;
-    private boolean isFullMessageShown = false;
-    public ProductBasket(int maxSize) {
-        this.products = new Product[maxSize];
-        this.maxSize = maxSize;
-        this.productCount = 0;
-        this.totalCost = 0;//  новые поле
-        this.specialProductCount = 0;//  новые поле
-    }
-    public void addProduct(Product product) {
-        if (productCount < maxSize) {
-            products[productCount] = product;
-            totalCost += product.getPrice();
-            if (product.isSpecial()) { // Здесь используется метод isSpecial() из SimpleProduct
-                specialProductCount++;
-            }
-            productCount++; // Увеличиваем счетчик добавленных товаров
-            // System.out.println("Товар: " + product.getName() + " добавлен в корзину "+ "стоимость " + product.getPrice());
-        } else {
-            if (!isFullMessageShown) {
-                System.out.println("ВНИМАНИЕ! Корзина полна!");
-                isFullMessageShown = true; // Помечаем, что сообщение уже выведено
 
-            }
+    // Убрали параметры, связанные с размером корзины, т.к. LinkedList динамически расширяется
+    public ProductBasket() {
+        this.totalCost = 0;
+        this.specialProductCount = 0;
+    }
+
+    public void addProduct(Product product) {
+        products.add(product);
+        totalCost += product.getPrice();
+        if (product.isSpecial()) {
+            specialProductCount++;
         }
     }
-    public int getTotalPrice() {
-        return totalCost; // Просто возвращаем накопленную сумму
+
+    public int getSize() {
+        return products.size();
     }
+    // Новый метод удаления по имени
+    public List<Product> removeProductByName(String name) {
+            List<Product> removedProducts = new LinkedList<>();
+        Iterator<Product> iterator = products.iterator();
+
+        while (iterator.hasNext()) {
+            Product product = iterator.next();
+            if (product.getName().equals(name)) {
+                iterator.remove();
+                removedProducts.add(product);
+                totalCost -= product.getPrice();
+                if (product.isSpecial()) {
+                    specialProductCount--;
+                }
+            }
+        }
+        return removedProducts;
+    }
+
+    public int getTotalPrice() {
+        return totalCost;
+    }
+
     public void printBasket() {
-        if (productCount == 0) {
+        if (products.isEmpty()) {
             System.out.println("Корзина пуста.");
             return;
         }
+
         System.out.println("--- Содержимое корзины ---");
-        // только реально добавленные товары
-        for (int i = 0; i < productCount; i++) {
-            System.out.println(products[i].toString());
+        System.out.println("Количество товаров: " + products.size());
+        for (Product product : products) {
+            System.out.println(product.toString());
         }
-        // Выводим итоговую информацию
-        System.out.println("Итого: " + getTotalPrice()+" рублей");
+        System.out.println("Итого: " + getTotalPrice() + " рублей");
         System.out.println("Специальных товаров: " + specialProductCount);
         System.out.println("---------------------------");
     }
 
     public void clear() {
-        for (int i = 0; i < productCount; i++) {
-            products[i] = null;
-        }
-        productCount = 0;
-        // Сбрасываем и новые поля
+        products.clear();
         totalCost = 0;
         specialProductCount = 0;
     }
