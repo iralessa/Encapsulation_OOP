@@ -1,6 +1,4 @@
-package org.skypro.skyshop.product.FixPriceProduct;
-
-import org.skypro.skyshop.product.Product;
+package org.skypro.skyshop.product;
 
 public class FixPriceProduct extends Product {
     // Приватная статическая финальная константа для фиксированной цены

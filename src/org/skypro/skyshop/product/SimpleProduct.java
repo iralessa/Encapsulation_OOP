@@ -1,7 +1,4 @@
-package org.skypro.skyshop.product.SimpleProduct;
-
-
-import org.skypro.skyshop.product.Product;
+package org.skypro.skyshop.product;
 
 public class SimpleProduct extends Product {
     private final int price;
@@ -9,6 +6,10 @@ public class SimpleProduct extends Product {
     public SimpleProduct(String name, int price) {
         // Вызываем конструктор родителя (Product)
         super(name);
+        // Добавляем проверку цены
+        if (price <= 0) {
+            throw new IllegalArgumentException("Цена продукта " + name + " должна быть строго больше 0");
+        }
         // Присваиваем цену нашему экземпляру
         this.price = price;
     }
