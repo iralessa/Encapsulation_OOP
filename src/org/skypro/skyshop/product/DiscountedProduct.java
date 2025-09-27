@@ -10,7 +10,6 @@ public class DiscountedProduct extends Product {
         if (basePrice <= 0) {
             throw new IllegalArgumentException("Базовая цена продукта " + name + " должна быть строго больше 0");
         }
-
         // Проверка процента скидки
         if (discountPercentage < 0 || discountPercentage >= 100) {
             throw new IllegalArgumentException("Процент скидки для продукта " + name + " должен быть в диапазоне от 0 до 100 включительно");

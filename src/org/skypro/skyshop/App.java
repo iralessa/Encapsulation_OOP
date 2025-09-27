@@ -8,6 +8,8 @@ import org.skypro.skyshop.product.SimpleProduct;
 import org.skypro.skyshop.search.BestResultNotFound;
 import org.skypro.skyshop.search.SearchEngine;
 import org.skypro.skyshop.search.Searchable;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class App {
@@ -16,10 +18,12 @@ public class App {
         // Создаем поисковую систему с емкостью 20 элементов
         SearchEngine searchEngine = new SearchEngine(20);
 
+        // Создаем список для хранения всех удаленных товаров
+        List<Product> allRemovedProducts = new ArrayList<>();
         // Создаем корзину с максимальным размером
-        ProductBasket basket = new ProductBasket(10);
+        ProductBasket basket = new ProductBasket();
         // Создаем продукты
-        System.out.println("************ Создаем продукты ***************************");
+        System.out.println("************ Создаем товары ***************************");
         try {
             // Корректные продукты
             Product product1 = new SimpleProduct("Яблоко", 50);
@@ -100,7 +104,7 @@ public class App {
         String[] searchQueries = {"кроссовки", "фрукт", "Книга", "Ананас", "Арбуз", "Туфли", "Цветы"};
         for (String query : searchQueries) {
             System.out.println("\nПоиск по запросу: '" + query + "'");
-            Searchable[] results = searchEngine.search(query);
+            List<Searchable> results = searchEngine.search(query);
             boolean found = false;
             for (Searchable result : results) {
                 if (result != null) {
@@ -136,6 +140,49 @@ public class App {
             System.out.println("!!! Ошибка при создании продукта: " + e.getMessage());
             e.printStackTrace();
         }
+
+        // Вставляем новую демонстрацию здесь
+        System.out.println("\n************ Демонстрация удаления продуктов из корзины **************");
+
+        // Получаем количество продуктов ДО удаления
+        int countBefore = basket.getSize();
+        System.out.println("\nКоличество продуктов в корзине ДО всех операций удаления: " + countBefore);
+// Сохраняем название удаляемого товара
+        String productName = "Тыква";
+        // Удаляем существующий продукт
+        List<Product> removedProducts1 = basket.removeProductByName("Банан");
+        allRemovedProducts.addAll(removedProducts1); // Добавляем в общий список
+        // Пытаемся удалить несуществующий продукт
+        List<Product> removedProducts2 = basket.removeProductByName("Гранат");
+        allRemovedProducts.addAll(removedProducts2); // Добавляем в общий список
+        List<Product> removedProducts3 = basket.removeProductByName("Тыква");
+// Проверяем, были ли удалены товары
+        if (removedProducts3.isEmpty()) {
+            System.out.println("!!! Предупреждение: Вы пытаетесь удалить несуществующий продукт! Продукта '" + productName + "' в корзине не было!!!");
+        } else {
+            allRemovedProducts.addAll(removedProducts3); // Добавляем в общий список
+        }
+
+        // Выводим общий список удаленных продуктов
+        System.out.println("\n************ Список удаленных продуктов **************");
+        if (!allRemovedProducts.isEmpty()) {
+            System.out.println("Всего удалено товаров: " + allRemovedProducts.size());
+            for (Product product : allRemovedProducts) {
+                System.out.println("- " + product.getName() + " Цена: " + product.getPrice() + " руб.");
+            }
+        } else {
+            System.out.println("Список удаленных продуктов пуст");
+        }
+        // Выводим содержимое корзины
+        System.out.println("\n");
+        basket.printBasket();
+
+
+
+        // Получаем итоговое количество продуктов
+        int countAfter = basket.getSize();
+        System.out.println("\nИтоговое количество продуктов в корзине: " + countAfter);
+        System.out.println("Всего удалено продуктов: " + (countBefore - countAfter));
         basket.clear();
         System.out.println("______________________");
         System.out.println("Корзина очищена:");

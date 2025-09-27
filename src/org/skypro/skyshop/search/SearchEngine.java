@@ -1,38 +1,30 @@
 package org.skypro.skyshop.search;
-import org.skypro.skyshop.search.BestResultNotFound; // Добавляем импорт
+import java.util.ArrayList;
+import java.util.List;
 
 public class SearchEngine {
-    private final Searchable[] searchableItems;
-    private int currentSize;
+    private final List<Searchable> searchableItems;
 
     // конструктор
     public SearchEngine(int capacity) {
-        this.searchableItems = new Searchable[capacity];
-        this.currentSize = 0;
+        // Используем список вместо массива
+        this.searchableItems = new ArrayList<>(capacity);
     }
 
     public void add(Searchable item) {
-        if (currentSize < searchableItems.length) {
-            searchableItems[currentSize] = item;
-            currentSize++;
-        }
+        searchableItems.add(item);
     }
 
-    public Searchable[] search(String query) {
+    // Измененный метод поиска
+    public List<Searchable> search(String query) {
         String lowerCaseQuery = query.toLowerCase();
-        Searchable[] results = new Searchable[5];
-        int resultIndex = 0;
+        List<Searchable> results = new ArrayList<>();
 
         for (Searchable item : searchableItems) {
             if (item != null) {
                 String searchTerm = item.getSearchTerm();
-
                 if (searchTerm != null && searchTerm.contains(lowerCaseQuery)) {
-                    results[resultIndex] = item;
-                    resultIndex++;
-                    if (resultIndex == 5) {
-                        break;
-                    }
+                    results.add(item);
                 }
             }
         }
@@ -79,16 +71,15 @@ public class SearchEngine {
         return count;
     }
 
+    // Обновленный метод вывода результатов
     public static void printSearchResults(SearchEngine searchEngine, String query) {
         System.out.println("\nПоиск по запросу: " + query);
-        Searchable[] results = searchEngine.search(query);
+        List<Searchable> results = searchEngine.search(query);
         boolean found = false;
 
-        for (int i = 0; i < results.length; i++) {
-            if (results[i] != null) {
-                System.out.println((i + 1) + ". Найден элемент: " + results[i].getName());
-                found = true;
-            }
+        for (int i = 0; i < results.size(); i++) {
+            System.out.println((i + 1) + ". Найден элемент: " + results.get(i).getName());
+            found = true;
         }
 
         if (!found) {
