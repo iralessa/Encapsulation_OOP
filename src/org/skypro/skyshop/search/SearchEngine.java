@@ -1,6 +1,8 @@
 package org.skypro.skyshop.search;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class SearchEngine {
     private final List<Searchable> searchableItems;
@@ -15,22 +17,22 @@ public class SearchEngine {
         searchableItems.add(item);
     }
 
-    // Измененный метод поиска
-    public List<Searchable> search(String query) {
+    // Модифицированный метод поиска, возвращающий отсортированную Map
+    public Map<String, Searchable> search(String query) {
         String lowerCaseQuery = query.toLowerCase();
-        List<Searchable> results = new ArrayList<>();
+        Map<String, Searchable> results = new TreeMap<>(); // Используем TreeMap для автоматической сортировки
 
         for (Searchable item : searchableItems) {
             if (item != null) {
                 String searchTerm = item.getSearchTerm();
                 if (searchTerm != null && searchTerm.contains(lowerCaseQuery)) {
-                    results.add(item);
+                    // Используем имя Searchable-объекта как ключ
+                    results.put(item.getName(), item);
                 }
             }
         }
         return results;
     }
-
     // Новый метод для поиска лучшего совпадения
     public Searchable findBestMatch(String search) throws BestResultNotFound {
         String lowerCaseQuery = search.toLowerCase();
@@ -74,15 +76,16 @@ public class SearchEngine {
     // Обновленный метод вывода результатов
     public static void printSearchResults(SearchEngine searchEngine, String query) {
         System.out.println("\nПоиск по запросу: " + query);
-        List<Searchable> results = searchEngine.search(query);
-        boolean found = false;
+        Map<String, Searchable> results = searchEngine.search(query);
+        boolean found = !results.isEmpty();
 
-        for (int i = 0; i < results.size(); i++) {
-            System.out.println((i + 1) + ". Найден элемент: " + results.get(i).getName());
-            found = true;
-        }
-
-        if (!found) {
+        if (found) {
+            int i = 1;
+            for (Map.Entry<String, Searchable> entry : results.entrySet()) {
+                System.out.println(i + ". Найден элемент: " + entry.getValue().getName());
+                i++;
+            }
+        } else {
             System.out.println("Ничего не найдено");
         }
     }
