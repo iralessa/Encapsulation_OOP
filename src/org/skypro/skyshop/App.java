@@ -10,6 +10,7 @@ import org.skypro.skyshop.search.SearchEngine;
 import org.skypro.skyshop.search.Searchable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 public class App {
@@ -99,25 +100,29 @@ public class App {
         basket.printBasket();
 
         // Демонстрация поиска
-        System.out.println("\n Анализ поиска:");
-        // Список поисковых запросов
-        String[] searchQueries = {"кроссовки", "фрукт", "Книга", "Ананас", "Арбуз", "Туфли", "Цветы"};
-        for (String query : searchQueries) {
-            System.out.println("\nПоиск по запросу: '" + query + "'");
-            List<Searchable> results = searchEngine.search(query);
-            boolean found = false;
-            for (Searchable result : results) {
-                if (result != null) {
-                    found = true;
-                    System.out.println("- Найден элемент: " + result.getName());
-                    System.out.println("- Тип: " + result.getContentType());
+            System.out.println("\n Анализ поиска:");
+            String[] searchQueries = {"кроссовки", "фрукт", "Книга", "Ананас", "Арбуз", "Туфли", "Цветы"};
+
+            for (String query : searchQueries) {
+                System.out.println("\nПоиск по запросу: '" + query + "'");
+                Map<String, Searchable> results = searchEngine.search(query); // Изменили тип
+                boolean found = !results.isEmpty(); // Оптимизировали проверку
+
+                // Изменили способ перебора результатов
+                int i = 1;
+                for (Map.Entry<String, Searchable> entry : results.entrySet()) {
+                    Searchable result = entry.getValue();
+                    if (result != null) {
+                        System.out.println(i + ". Найден элемент: " + result.getName());
+                        System.out.println("- Тип: " + result.getContentType());
+                        i++;
+                    }
+                }
+
+                if (!found) {
+                    System.out.println("По запросу '" + query + "' ничего не найдено");
                 }
             }
-
-            if (!found) {
-                System.out.println("По запросу '" + query + "' ничего не найдено");
-            }
-        }
 
             // Демонстрация поиска лучшего совпадения
             System.out.println("\n  _______________Демонстрация поиска лучшего совпадения:___________");
@@ -187,5 +192,8 @@ public class App {
         System.out.println("______________________");
         System.out.println("Корзина очищена:");
         basket.printBasket(); //  "Корзина пуста."
+
+
+
     }
 }
