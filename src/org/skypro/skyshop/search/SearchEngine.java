@@ -2,6 +2,8 @@ package org.skypro.skyshop.search;
 import org.skypro.skyshop.product.Article;
 
 import java.util.*;
+import java.util.stream.Collectors;
+
 
 public class SearchEngine {
     private final Set<Searchable> searchableItems;
@@ -16,21 +18,14 @@ public class SearchEngine {
         searchableItems.add(item);
     }
 
-    // ИЗМЕНЕННЫЙ МЕТОД ПОИСКА
+    // ИЗМЕНЕННЫЙ МЕТОД ПОИСКА С ИСПОЛЬЗОВАНИЕМ STREAM
     public Set<Searchable> search(String query){
         String lowerCaseQuery = query.toLowerCase();
-        Set<Searchable> results = new TreeSet<>(new SearchableComparator()); // Используем TreeSet для автоматической сортировки
+        return (Set<Searchable>) searchableItems.stream()
+                .filter(item -> item!= null && item.getSearchTerm()!=null && item.getSearchTerm().contains(lowerCaseQuery))
+        // Собираем результат в TreeSet с нашим компаратором
+                .collect(Collectors.toCollection(() -> new TreeSet<>(new SearchableComparator())));
 
-        for (Searchable item : searchableItems) {
-            if (item != null) {
-                String searchTerm = item.getSearchTerm();
-                if (searchTerm != null && searchTerm.contains(lowerCaseQuery)) {
-                    // Используем имя Searchable-объекта как ключ
-                    results.add(item);
-                }
-            }
-        }
-        return results;
     }
     // Новый метод для поиска лучшего совпадения
     public Searchable findBestMatch(String search) throws BestResultNotFound {
