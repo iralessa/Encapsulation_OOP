@@ -27,52 +27,60 @@ public class ProductBasket {
         }
     }
 
-    // Переписываем метод удаления
+    // Переписываем метод удаления с использованием Stream API
     public List<Product> removeProductByName(String name) {
         List<Product> removedProducts = new ArrayList<>();
 
         if (products.containsKey(name)) {
             List<Product> productList = products.get(name);
-            for (Product product : productList) {
-                removedProducts.add(product);
-                totalCost -= product.getPrice();
-                if (product.isSpecial()) {
-                    specialProductCount--;
-                }
-            }
-            products.remove(name);
+            removedProducts  = productList;
+            totalCost -= productList.stream()
+                    .mapToInt(Product::getPrice)
+                    .sum();
+            specialProductCount -=(int) productList.stream()
+                    .filter(Product::isSpecial)
+                    .count();
+            products.remove(name);  // ТЕПЕРЬ ПРАВИЛЬНО
         }
         return removedProducts;
     }
 
     // Переписываем метод подсчета общего количества товаров
     public int getSize() {
-        int size = 0;
-        for (List<Product> productList : products.values()) {
-            size += productList.size();
-        }
-        return size;
+        return products.values()
+                .stream()
+                .flatMap(Collection::stream)
+                .mapToInt(product -> 1)
+                .sum();
     }
 
+    // Новый  метод для подсчета специальных товаров getSpecialCount
+    private long getSpecialCount() {
+        return products.values()
+                .stream()
+                .flatMap(Collection::stream)
+                .filter(Product::isSpecial)
+                .count();
+    }
     // Переписываем метод вывода корзины
     public void printBasket() {
-        if (products.isEmpty()) {
-            System.out.println("Корзина пуста.");
-            return;
-        }
+            if (products.isEmpty()) {
+                System.out.println("Корзина пуста.");
+                return;
+            }
+
 
         System.out.println("--- Содержимое корзины ---");
         System.out.println("Количество товаров: " + getSize());
 
-        // Используем вложенный цикл для перебора всех продуктов
-        for (Map.Entry<String, List<Product>> entry : products.entrySet()) {
-            for (Product product : entry.getValue()) {
-                System.out.println(product.toString());
-            }
-        }
+            // Используем forEach для вывода всех продуктов
+            products.values()
+                    .stream()
+                    .flatMap(Collection::stream)
+                    .forEach(product -> System.out.println(product.toString()));
 
         System.out.println("Итого: " + getTotalPrice() + " рублей");
-        System.out.println("Специальных товаров: " + specialProductCount);
+        System.out.println("Специальных товаров: " + getSpecialCount());
         System.out.println("---------------------------");
     }
 

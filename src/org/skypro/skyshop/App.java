@@ -137,11 +137,12 @@ public class App {
                 // Изменили способ перебора результатов
                 int i = 1;
                 for (Searchable result : results) {
-                    if (result instanceof Article) { // Проверяем, является ли элемент статьей
+                    String contentType = result.getContentType();
+                    if (contentType.equals("СТАТЬЯ")) {
                         System.out.println("- Тип: СТАТЬЯ");
                         System.out.println("- Название статьи: " + result.getName());
                         System.out.println("- Длина названия: " + result.getName().length() + " символов");
-                    } else {
+                    } else if (contentType.equals("ТОВАР")) {
                         System.out.println("- Тип: ТОВАР");
                     }
                     i++;
